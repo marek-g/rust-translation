@@ -1,20 +1,40 @@
 # tr_init
 
-Initialization code for tr! macro for easy usage and small binary size.
+Initialization code for tr! macro for easy usage and small binary sizes.
+
+## Minimal example:
+
+```rust
+use tr_init::{tr_init, tr};
+
+#[derive(rust_embed::RustEmbed)]
+#[folder = "i18n/mo"]
+struct Translations;
+
+fn main() {
+    tr_init!("locale", Translations);
+
+    println!("{}", tr!("Hello, world!"));
+}
+```
+
+The files from `i18n/mo` folder are embedded in the executable file. The `tr_init!` macro looks for (in the following order):
+- `locale/{lang}/{module_name}.mo` in the file system
+- `{lang}/{module_name}.mo` in the embedded `Translations` struct  
 
 ## Introduction
 
 There is a very nice [`tr`](https://crates.io/crates/tr) crate with the `tr!` macro that can be used to localize Rust applications.
 
-The macro uses `gettext` approach which I like more than the `fluent` one. I know that `fluent` has many advantages but I like that with `gettext` I've more readable source code and I can write it quicker. Your experience may vary.
+The macro uses `gettext` approach which I like more than the `fluent` one. I know that `fluent` has many advantages but I like that with `gettext` I can have more readable source code and I can write it quicker. Your experience may vary.
 
-The only problem with `tr` crate is that if you want to embed translations into resulting binary and auto-select correct one, the initialization code for that is pretty long (at version 0.1.3 at time of writing).
+The only problem with `tr` crate I have is that if you want to embed translations into resulting binary and auto-select correct one, the initialization code for that is pretty long (at version 0.1.3 at time of writing).
 
 This crate makes the initialization of `tr` macro as easy as possible.
 
 ## Features
 
-- Autodetection of user's locale.
+- Autodetect user's locale.
 
 - The resulting code size impact is very small. Instead of `locale_config` it uses simplified code from it, as `locale_config` depends on `regex` crate which is a few megabytes of size after compilation.
 
@@ -28,7 +48,7 @@ This crate makes the initialization of `tr` macro as easy as possible.
 
 _Note. This instruction uses `cargo-i18` tool. Please also read https://github.com/kellpossible/cargo-i18n for more information._ 
 
-### Steps
+### Configuration Steps
 
 Install required tools:
 
@@ -61,26 +81,6 @@ cargo i18n
 ``` 
 
 It scans the code and creates and updates the localization file. You can run it every time you want to update your localization files or compile `po` files.
-
-Minimal example:
-
-```rust
-use tr_init::{tr_init, tr};
-
-#[derive(rust_embed::RustEmbed)]
-#[folder = "i18n/mo"]
-struct Translations;
-
-fn main() {
-    tr_init!("locale", Translations);
-
-    println!("{}", tr!("Hello, world!"));
-}
-```
-
-The files from `i18n/mo` folder are embedded in the executable file. The `tr_init!` macro looks for:
-- `locale/{lang}/{module_name}.mo` in the file system
-- `{lang}/{module_name}.mo` in the embedded `Translations` struct  
 
 ## TODO
 
