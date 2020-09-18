@@ -1,6 +1,6 @@
 # translation
 
-Library for localisation (text translation) of Rust applications.
+Library for localization (text translation) of Rust applications.
  
 ## Features
  
