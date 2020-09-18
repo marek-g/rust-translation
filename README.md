@@ -1,5 +1,10 @@
 # translation
 
+[![Crates.io Version](https://img.shields.io/crates/v/translation.svg)](https://crates.io/crates/translation)
+[![Docs.rs Version](https://docs.rs/translation/badge.svg)](https://docs.rs/translation)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square)](https://github.com/marek-g/rust-translation/blob/master/LICENSE-APACHE)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/marek-g/rust-translation/blob/master/LICENSE-MIT)
+
 Library for localization (text translation) of Rust applications.
  
 ## Features
@@ -40,7 +45,7 @@ The `locale` folder is looked for relative to the application executable file.
 
 ## Dependencies
 
-Current solution depends on the following creates:
+Current solution depends on the following crates:
 - [`tr`](https://crates.io/crates/tr) - the `tr!` macro
 - [`gettext`](https://crates.io/crates/gettext) - reimplementation of gettext in Rust
 - [`rust_embed`](https://crates.io/crates/rust_embed) - to embed locale in executable file 
