@@ -1,11 +1,15 @@
-# tr_init
+# translation
 
-Initialization code for tr! macro for easy usage and small binary sizes.
+Library for localisation (text translation) of Rust applications. It aims for:
+- easy usage,
+- small binary footprint,
+- embedded translation files
+- ability to add/modify translation files without recompilation.
 
 ## Minimal example:
 
 ```rust
-use tr_init::{tr_init, tr, RustEmbed};
+use translation::{tr_init, tr, RustEmbed};
 
 #[derive(RustEmbed)]
 #[folder = "i18n/mo"]
@@ -60,7 +64,7 @@ cargo install cargo-i18n
 Add the following to your `Cargo.toml` dependencies:
 
 ```toml
-tr_init = "0.1"
+translation = "1.0"
 ```
 
 Create an `i18n.toml` file in the root directory of your crate:
@@ -69,7 +73,7 @@ Create an `i18n.toml` file in the root directory of your crate:
 fallback_language = "en"
 
 [gettext]
-target_languages = ["en", "pl"]
+target_languages = ["pl"]
 output_dir = "i18n"
 ```
  

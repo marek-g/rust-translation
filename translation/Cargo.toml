@@ -1,0 +1,20 @@
+[package]
+name = "translation"
+version = "1.0.0"
+authors = ["Marek Gibek <marek-dev@yandex.com>"]
+edition = "2018"
+description = "Library for localisation (text translation) of Rust applications."
+keywords = ["internationalization", "translation", "l10n", "i18n", "gettext"]
+categories = ["internationalization", "localization"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/marek-g/tr-init"
+documentation = "https://docs.rs/tr-init"
+readme = "README.md"
+
+[dependencies]
+tr = { version = "0.1", default-features = false, features = ["gettext"] }
+gettext = "0.4"
+rust-embed = "5"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winnls"] }

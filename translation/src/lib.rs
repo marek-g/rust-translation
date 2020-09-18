@@ -1,7 +1,7 @@
 pub use tr::tr;
+pub use rust_embed::RustEmbed;
 
 use crate::locale::Locale;
-use rust_embed::RustEmbed;
 use std::path::PathBuf;
 
 mod locale;
@@ -9,7 +9,7 @@ mod locale;
 #[macro_export]
 macro_rules! tr_embed {
     ($path:expr, $embedded:ident) => {
-        #[derive(rust_embed::RustEmbed)]
+        #[derive(translation::RustEmbed)]
         #[folder = $path]
         struct $embedded;
     }
@@ -23,8 +23,7 @@ macro_rules! tr_init {
 }
 
 pub mod internal {
-    use rust_embed::RustEmbed;
-    use crate::{locale, try_read_locale};
+    use crate::{locale, try_read_locale, RustEmbed};
 
     pub fn tr_init<E: RustEmbed>(module: &'static str, local_folder: &str) {
         if let Some(locale) = locale::Locale::current() {

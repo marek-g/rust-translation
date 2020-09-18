@@ -1,0 +1,5 @@
+fallback_language = "en"
+
+[gettext]
+target_languages = ["pl"]
+output_dir = "i18n"
