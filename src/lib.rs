@@ -1,15 +1,24 @@
+pub use tr::tr;
+
 use crate::locale::Locale;
-use std::path::PathBuf;
 use rust_embed::RustEmbed;
+use std::path::PathBuf;
 
 mod locale;
 
-pub use tr::tr;
+#[macro_export]
+macro_rules! tr_embed {
+    ($path:expr, $embedded:ident) => {
+        #[derive(rust_embed::RustEmbed)]
+        #[folder = $path]
+        struct $embedded;
+    }
+}
 
 #[macro_export]
 macro_rules! tr_init {
-    ($path:expr, $embedd:ty) => {
-        $crate::internal::tr_init::<$embedd>(module_path!(), $path)
+    ($path:expr, $embedded:ty) => {
+        $crate::internal::tr_init::<$embedded>(module_path!(), $path)
     };
 }
 

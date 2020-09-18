@@ -5,9 +5,9 @@ Initialization code for tr! macro for easy usage and small binary sizes.
 ## Minimal example:
 
 ```rust
-use tr_init::{tr_init, tr};
+use tr_init::{tr_init, tr, RustEmbed};
 
-#[derive(rust_embed::RustEmbed)]
+#[derive(RustEmbed)]
 #[folder = "i18n/mo"]
 struct Translations;
 
@@ -61,7 +61,6 @@ Add the following to your `Cargo.toml` dependencies:
 
 ```toml
 tr_init = "0.1"
-rust-embed = "5"
 ```
 
 Create an `i18n.toml` file in the root directory of your crate:

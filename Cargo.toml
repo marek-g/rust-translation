@@ -15,3 +15,6 @@ readme = "README.md"
 tr = { version = "0.1", default-features = false, features = ["gettext"] }
 gettext = "0.4"
 rust-embed = "5"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winnls"] }

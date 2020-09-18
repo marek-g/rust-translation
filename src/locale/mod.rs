@@ -1,4 +1,8 @@
-mod unix;
+#[cfg(target_family = "windows")]
+mod windows;
+
+#[cfg(not(target_os = "windows"))]
+mod env;
 
 pub struct Locale {
     pub language: String,
@@ -7,26 +11,22 @@ pub struct Locale {
 
 impl Locale {
     pub fn from(lang: &str) -> Option<Self> {
-        let lang = lang.as_bytes();
-        if lang.len() >= 5 {
-            if lang[2] == '_' as u8 {
-                Some(Locale {
-                    language: String::from_utf8_lossy(&lang[0..2]).into_owned(),
-                    region: Some(String::from_utf8_lossy(&lang[3..5]).into_owned()),
-                })
-            } else {
-                Some(Locale {
-                    language: String::from_utf8_lossy(&lang[0..2]).into_owned(),
-                    region: None,
-                })
-            }
-        } else if lang.len() == 2 {
-            Some(Locale {
-                language: String::from_utf8_lossy(&lang[0..2]).into_owned(),
-                region: None,
-            })
+        let x: &[_] = &['.', ',', '@'];
+        let lang_and_region: Vec<&str> = lang.split(x).next().unwrap().split('_').collect();
+        let language = lang_and_region[0].to_owned();
+        let region = if lang_and_region.len() > 1 {
+            Some(lang_and_region[1].to_owned())
         } else {
             None
+        };
+
+        if language.is_empty() {
+            None
+        } else {
+            Some(Locale {
+                language,
+                region,
+            })
         }
     }
 }
