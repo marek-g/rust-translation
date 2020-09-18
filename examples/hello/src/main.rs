@@ -1,6 +1,8 @@
-use translation::{tr_embed, tr_init, tr};
+use translation::{tr_init, tr};
 
-tr_embed!("i18n/mo", Translations);
+#[derive(rust_embed::RustEmbed)]
+#[folder = "i18n/mo"]
+struct Translations;
 
 fn main() {
     tr_init!("locale", Translations);

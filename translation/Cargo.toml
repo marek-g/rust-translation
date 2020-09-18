@@ -9,7 +9,7 @@ categories = ["internationalization", "localization"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/marek-g/tr-init"
 documentation = "https://docs.rs/tr-init"
-readme = "README.md"
+readme = "../README.md"
 
 [dependencies]
 tr = { version = "0.1", default-features = false, features = ["gettext"] }

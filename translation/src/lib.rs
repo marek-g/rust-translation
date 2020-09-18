@@ -1,19 +1,10 @@
 pub use tr::tr;
-pub use rust_embed::RustEmbed;
 
 use crate::locale::Locale;
+use rust_embed::RustEmbed;
 use std::path::PathBuf;
 
 mod locale;
-
-#[macro_export]
-macro_rules! tr_embed {
-    ($path:expr, $embedded:ident) => {
-        #[derive(translation::RustEmbed)]
-        #[folder = $path]
-        struct $embedded;
-    }
-}
 
 #[macro_export]
 macro_rules! tr_init {
@@ -28,8 +19,9 @@ pub mod internal {
     pub fn tr_init<E: RustEmbed>(module: &'static str, local_folder: &str) {
         if let Some(locale) = locale::Locale::current() {
             if let Some(content) = try_read_locale::<E>(module, &locale, local_folder) {
-                let catalog = gettext::Catalog::parse(&content[..]).expect("could not parse the catalog");
-                tr::internal::set_translator(module, catalog);
+                if let Some(catalog) = gettext::Catalog::parse(&content[..]).ok() {
+                    tr::internal::set_translator(module, catalog);
+                }
             }
         }
     }
@@ -79,8 +71,10 @@ fn try_read_from_filepath(filepath: PathBuf) -> Option<Vec<u8>> {
 fn locale_to_paths(module: &str, locale: &Locale) -> Vec<PathBuf> {
     let mut possible_paths = Vec::new();
     if let Some(region) = &locale.region {
+        possible_paths.push(PathBuf::from(&format!("{}_{}/LC_MESSAGES/{}.mo", locale.language, region, module)));
         possible_paths.push(PathBuf::from(&format!("{}_{}/{}.mo", locale.language, region, module)));
     }
+    possible_paths.push(PathBuf::from(&format!("{}/LC_MESSAGES/{}.mo", locale.language, module)));
     possible_paths.push(PathBuf::from(&format!("{}/{}.mo", locale.language, module)));
     possible_paths
 }

@@ -1,17 +1,25 @@
 # translation
 
-Library for localisation (text translation) of Rust applications. It aims for:
-- easy usage,
-- small binary footprint,
-- embedded translation files
-- ability to add/modify translation files without recompilation.
+Library for localisation (text translation) of Rust applications.
+ 
+## Features
+ 
+- Autodetect user's locale (Windows, Unix).
+
+- Small size - it doesn't depend on `regex` (like `locale_config` does).
+ 
+- The localization files are embedded in the binary.
+ 
+- It looks for localization files in the file system first, so new localization files can be added without application recompilation.
+ 
+- It works great with `cargo-i18n`.
 
 ## Minimal example:
 
 ```rust
-use translation::{tr_init, tr, RustEmbed};
+use translation::{tr_init, tr};
 
-#[derive(RustEmbed)]
+#[derive(rust_embed::RustEmbed)]
 #[folder = "i18n/mo"]
 struct Translations;
 
@@ -22,31 +30,22 @@ fn main() {
 }
 ```
 
-The files from `i18n/mo` folder are embedded in the executable file. The `tr_init!` macro looks for (in the following order):
+The files from `i18n/mo` source folder are embedded in the executable file. The `tr_init!` macro looks for (in the following order):
+- `locale/{lang}/LC_MESSAGES/{module_name}.mo` in the file system
 - `locale/{lang}/{module_name}.mo` in the file system
+- `{lang}/LC_MESSAGES/{module_name}.mo` in the embedded `Translations` struct
 - `{lang}/{module_name}.mo` in the embedded `Translations` struct  
 
-## Introduction
+The `locale` folder is looked for relative to the application executable file. 
 
-There is a very nice [`tr`](https://crates.io/crates/tr) crate with the `tr!` macro that can be used to localize Rust applications.
+## Dependencies
 
-The macro uses `gettext` approach which I like more than the `fluent` one. I know that `fluent` has many advantages but I like that with `gettext` I can have more readable source code and I can write it quicker. Your experience may vary.
+Current solution depends on the following creates:
+- [`tr`](https://crates.io/crates/tr) - the `tr!` macro
+- [`gettext`](https://crates.io/crates/gettext) - reimplementation of gettext in Rust
+- [`rust_embed`](https://crates.io/crates/rust_embed) - to embed locale in executable file 
 
-The only problem with `tr` crate I have is that if you want to embed translations into resulting binary and auto-select correct one, the initialization code for that is pretty long (at version 0.1.3 at time of writing).
-
-This crate makes the initialization of `tr` macro as easy as possible.
-
-## Features
-
-- Autodetect user's locale.
-
-- The resulting code size impact is very small. Instead of `locale_config` it uses simplified code from it, as `locale_config` depends on `regex` crate which is a few megabytes of size after compilation.
-
-- The localization files are embedded in the binary.
-
-- It search the local folder for the localization files first and then it looks to the embedded ones. That way the localization files can be added or modified without recompilation.
-
-- It works great with `cargo-i18n`.
+The crate was born because the `tr` crate (version 0.1.3 at the time of writing) is missing the `tr_init!` macro when used with `gettext` crate. Instead of creating pull request for `tr` crate I started experimenting with new crate and embedding translation files. In the future I plan to add support also for reading .po files directly (so no compilation step of .po files will be required).
 
 ## Usage
 
@@ -84,7 +83,3 @@ cargo i18n
 ``` 
 
 It scans the code and creates and updates the localization file. You can run it every time you want to update your localization files or compile `po` files.
-
-## TODO
-
-It currently works with `.mo` files. It would be nice if it could work directly with `.po` files without the need for the compilation. That way newly added localization files could be easily edited with any text editor.  
