@@ -1,6 +1,6 @@
 [package]
 name = "translation"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Marek Gibek <marek-dev@yandex.com>"]
 edition = "2018"
 description = "Library for localisation (text translation) of Rust applications."
