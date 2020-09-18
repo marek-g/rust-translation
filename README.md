@@ -68,7 +68,7 @@ cargo install cargo-i18n
 Add the following to your `Cargo.toml` dependencies:
 
 ```toml
-translation = "1.0"
+translation = "1"
 ```
 
 Create an `i18n.toml` file in the root directory of your crate:

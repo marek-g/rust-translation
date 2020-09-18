@@ -7,5 +7,5 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-translation = { version = "1.0", path = "../../translation"}
+translation = { version = "1", path = "../../translation"}
 rust-embed = "5"
