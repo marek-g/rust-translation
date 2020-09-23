@@ -41,7 +41,9 @@ The files from `i18n/mo` source folder are embedded in the executable file. The 
 - `{lang}/LC_MESSAGES/{module_name}.mo` in the embedded `Translations` struct
 - `{lang}/{module_name}.mo` in the embedded `Translations` struct  
 
-The `locale` folder is looked for relative to the application executable file. 
+The `locale` folder is looked for relative to the application executable file.
+
+For more examples how to use `tr!` macro (arguments, plurals, context etc.) please refer to [`tr`](https://crates.io/crates/tr) crate documentation.
 
 ## Dependencies
 
