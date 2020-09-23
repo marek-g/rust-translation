@@ -87,4 +87,4 @@ Run `cargo i18n` tool:
 cargo i18n
 ``` 
 
-It scans the code and creates and updates the localization file. You can run it every time you want to update your localization files or compile `po` files.
+It scans the code and creates and updates the localization files. You can run it every time you want to update your localization files or compile `po` files.
